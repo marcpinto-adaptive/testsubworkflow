@@ -31,8 +31,21 @@ project(':subdir') {
 
     publishing {
         publications {
-            mavenJava(MavenPublication) {
+            aeronClusterStandby(MavenPublication) {
                 from components.java
+            }
+        }
+
+        repositories {
+            if (project.hasProperty('adaptive_username')) {
+                maven {
+                    name 'artifactory'
+                    url 'http://localhost:8081'
+                    credentials {
+                        username = adaptive_username
+                        password = adaptive_password
+                    }
+                }
             }
         }
     }
