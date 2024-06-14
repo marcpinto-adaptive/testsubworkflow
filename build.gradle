@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+project(':subdir') {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    dependencies {
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+    }
+
+    jar {
+        manifest {
+            attributes(
+                    'Main-Class': 'org.example.MainTest'
+            )
+        }
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+}
+
